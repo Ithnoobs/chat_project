@@ -89,16 +89,46 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-5. Run the ASGI server (Daphne) so WebSockets work:
+5. Collect static files (required when serving static files with Daphne/WhiteNoise):
+
+```powershell
+# collects admin CSS/JS and app static files into the folder configured by STATIC_ROOT
+python manage.py collectstatic --noinput
+```
+
+6. Run the ASGI server (Daphne) so WebSockets work:
 
 ```powershell
 # start Daphne on localhost:8000
 python -m daphne -b 127.0.0.1 -p 8000 chat_project.asgi:application
 ```
 
-6. Open the site in your browser:
+7. Open the site in your browser:
 
 Visit http://127.0.0.1:8000
+
+Quick admin styling note:
+- If you only need to use the admin quickly and don't care about WebSockets while editing content, you can run the Django development server instead (it serves static files automatically):
+
+```powershell
+python manage.py runserver
+```
+
+If you get an error on login like "User has no profile", create a profile for that user in the Django shell:
+
+```powershell
+python manage.py shell
+```
+
+Then in the shell (Using admin as an example):
+
+```python
+from django.contrib.auth.models import User
+from apps.authentication.models import UserProfile
+user = User.objects.get(username='admin')
+UserProfile.objects.get_or_create(user=user)
+exit()
+```
 
 Notes
 - Using `python manage.py runserver` may work for basic HTTP, but to reliably accept WebSocket upgrade requests you should run an ASGI server such as Daphne or Uvicorn as shown above.
