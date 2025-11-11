@@ -141,5 +141,15 @@ Troubleshooting
 Deploying
 - You may include a small CI workflow that installs `requirements.txt` and runs tests.
 
+
 Optional: development helper script
 - See `dev-run.ps1` for a small helper that brings up Docker, runs migrations, and launches Daphne.
+- You can now configure the admin username, email, and password via script parameters:
+
+```powershell
+./dev-run.ps1 -AdminUsername "myadmin" -AdminEmail "myadmin@example.com" -AdminPassword "MySecret123"
+```
+If not specified, the defaults are:
+- Username: `admin`
+- Email: `admin@example.com`
+- Password: `Admin123`
