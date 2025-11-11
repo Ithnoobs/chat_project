@@ -11,6 +11,50 @@
 
 This repository is a Django + Channels chat project that uses PostgreSQL and Redis (via Docker) for school assignment. WebSocket connections are served by an ASGI server (Daphne) — ensure you run the ASGI server for WebSocket support.
 
+## Feature Checklist
+
+Track the implementation status of planned features:
+
+- [x] **User Authentication** — Done
+  - UserProfile model with online_status tracking
+  - Django User model integration
+  - Authentication views and forms verified
+  
+- [x] **Chat Rooms** — Done
+  - Room model with public/private types
+  - RoomMembership with role-based access (admin, moderator, member)
+  - Room creation, listing, and detail views
+  
+- [x] **Notifications** — Partially Done
+  - Notification model with multiple types (mention, message, invite, reply)
+  - Generic foreign key for linking to any model
+  - Missing: Real-time WebSocket notification dispatch
+  
+- [ ] **Moderation Tools** — Not Done
+  - Report model for flagging inappropriate content
+  - ModerationAction model for ban/mute/warn actions
+  - Missing: Admin views and enforcement logic
+  
+- [x] **Chat History** — Done
+  - Message model with content storage
+  - Parent message field for threading/replies
+  - Messages stored with timestamps and sender info
+  
+- [ ] **File Sharing** — Not Done
+  - Attachment model for file uploads
+  - File type and size tracking
+  - Upload directory structure: `attachments/%Y/%m/%d/`
+  
+- [x] **Typing Indicators** — Done
+  - typing_indicator message type in ChatConsumer
+  - WebSocket broadcast of typing status
+  - Frontend receives username and is_typing flag
+  
+- [x] **Online Status** — Done
+  - online_status field in UserProfile (online/away/offline)
+  - last_seen timestamp tracking
+  - Auto-updated on profile save
+
 ## Prerequisites
 - Python 3.10+ (use your project virtual environment)
 - Docker & Docker Compose (for PostgreSQL and Redis)
