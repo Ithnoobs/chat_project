@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat Rooms{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2><i class="bi bi-chat-dots"></i> Chat Rooms</h2>
+                <a href="{% url 'chat:room_create' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Create Room
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Your Rooms -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-check"></i> Your Rooms</h5>
+                </div>
+                <div class="card-body">
+                    {% if user_rooms %}
+                        <div class="list-group list-group-flush">
+                            {% for room in user_rooms %}
+                            <a href="{% url 'chat:room_detail' room.slug %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ room.name }}</h6>
+                                        <small class="text-muted">
+                                            {% if room.room_type == 'public' %}
+                                                <i class="bi bi-globe"></i>
+                                            {% else %}
+                                                <i class="bi bi-lock"></i>
+                                            {% endif %}
+                                            {{ room.room_type|title }} • {{ room.members.count }} members
+                                        </small>
+                                    </div>
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center py-4">
+                            <i class="bi bi-inbox" style="font-size: 3rem;"></i><br>
+                            You haven't joined any rooms yet.<br>
+                            <a href="{% url 'chat:room_create' %}">Create one</a> or join a public room!
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Public Rooms -->
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-globe"></i> Public Rooms</h5>
+                </div>
+                <div class="card-body">
+                    {% if public_rooms %}
+                        <div class="list-group list-group-flush">
+                            {% for room in public_rooms %}
+                            <a href="{% url 'chat:room_detail' room.slug %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ room.name }}</h6>
+                                        <small class="text-muted">
+                                            Created by {{ room.created_by.username }} • {{ room.members.count }} members
+                                        </small>
+                                    </div>
+                                    <span class="badge bg-success">Join</span>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center py-4">
+                            <i class="bi bi-search" style="font-size: 3rem;"></i><br>
+                            No public rooms available.<br>
+                            <a href="{% url 'chat:room_create' %}">Create the first one!</a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+venv/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+# Ignore migrations directories for Django apps
+apps/*/migrations/
+apps/**/migrations/
+
+# Environment variables
+.env
+
+# Database
+postgres/data/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
